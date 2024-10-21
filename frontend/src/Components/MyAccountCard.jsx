@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 const MyAccountCard = ({ number, title, description, bgColor, textColor }) => {
   return (

@@ -1,29 +1,29 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
-// Login Route
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+const auth = (req, res, next) => {
+  // Get the token from the Authorization header
+  const token = req.header('Authorization');
+
+  // Check if the token exists
+  if (!token) {
+    return res.status(401).json({ message: 'No token, authorization denied' });
+  }
 
   try {
-    // Find user by email
-    const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ message: 'Invalid credentials' });
-    }
+    // If token starts with 'Bearer ', remove it
+    const actualToken = token.startsWith('Bearer ') ? token.slice(7, token.length).trimLeft() : token;
 
-    // On success, fetch user data
-    const userData = await User.findOne({ email });
+    // Verify the token using the JWT secret
+    const decoded = jwt.verify(actualToken, process.env.JWT_SECRET);
 
-    // Print email for testing
-    console.log("User Email: ", userData.email);
+    // Attach the decoded user info to the request object for further usage in routes
+    req.user = decoded.user; // Assuming the JWT payload contains `user`
 
-    // Send data to frontend
-    res.status(200).json({ message: 'Login successful', userData });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    next(); // Move to the next middleware or route handler
+  } catch (err) {
+    console.error('Token validation failed:', err);
+    res.status(401).json({ message: 'Invalid token' });
   }
-});
+};
 
-module.exports = router;
+module.exports = auth;

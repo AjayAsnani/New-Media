@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import IntroBanner from '../Components/IntroBanner';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import GoToTopButton from '../Components/GoToTopButton';
-import Select from 'react-select';
 
 
 const RegisterPage = () => {
@@ -22,11 +21,7 @@ const RegisterPage = () => {
     const [submitMessage, setSubmitMessage] = useState('');
     const navigate = useNavigate();
 
-    // const [stateOptions, setStateOptions] = useState([]); // State options
-    // const [cityOptions, setCityOptions] = useState([]); // City options based on selected state
-    // const [stateCityData, setStateCityData] = useState(null); // Store entire JSON data
-
-    // Function to check if the user is 18 years or older
+  
     const isAdult = (dob) => {
         const dobDate = new Date(dob);
         const today = new Date();
@@ -37,44 +32,6 @@ const RegisterPage = () => {
             : age >= 18;
     };
 
-    // // Fetch the JSON data on component mount
-    // useEffect(() => {
-    //     fetch('/St-ci.json')
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setStateCityData(data); // Store the JSON data
-
-    //             const states = data.states.map((state) => ({
-    //                 label: state.name,
-    //                 value: state.name,
-    //             }));
-    //             setStateOptions(states); // Set state options
-    //         })
-    //         .catch((error) => console.error('Error fetching data:', error));
-    // }, []);
-
-    // // Handle state selection and update cities
-    // const handleStateChange = (selectedOption) => {
-    //     if (!stateCityData) return; // Ensure data is available
-
-    //     const selectedStateName = selectedOption?.value; // Check for valid selection
-    //     console.log('Selected State:', selectedStateName);
-
-    //     const selectedState = stateCityData.states.find(
-    //         (state) => state.name === selectedStateName
-    //     );
-
-    //     const cities = selectedState
-    //         ? selectedState.cities.map((city) => ({
-    //             label: city.name,
-    //             value: city.name,
-    //         }))
-    //         : [];
-
-    //     setCityOptions(cities); // Update city options
-    // };
-
-    // Function to send form data to the backend
     async function onSubmit(data) {
         setSubmitMessage('');
         try {

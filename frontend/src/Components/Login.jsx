@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // For navigation
 import { FaUser, FaLock } from 'react-icons/fa'; // Icons for User and Password
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Eye icons
 import { Link } from 'react-router-dom';
 import '../app.css';
 
-const Login = ({ prop }) => {
-  const [username, setUsername] = useState(''); // State for username
+const Login = () => {
+  const [email, setEmail] = useState(''); // State for email
   const [password, setPassword] = useState(''); // State for password
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const [error, setError] = useState(''); // State to display login errors
@@ -31,7 +31,7 @@ const Login = ({ prop }) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username,
+          email,
           password,
         }),
       });
@@ -39,15 +39,18 @@ const Login = ({ prop }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Successful login
-        navigate('/accountPage'); // Navigate to My Account page
+        // Successful login: Store JWT token in localStorage or sessionStorage
+        localStorage.setItem('token', data.token); // Store the JWT token
+
+        // Navigate to account page after login
+        navigate('/accountPage');
       } else {
         // Display error message from backend
         setError(data.message || 'Invalid username or password.');
       }
     } catch (error) {
       // Handle network errors or other issues
-      setError('An error occurred. Please try again later.');
+      setError('An error occurred. Please try again later.',error);
     } finally {
       setLoading(false); // Turn off the loading state
     }
@@ -56,19 +59,17 @@ const Login = ({ prop }) => {
   return (
     <div className="flex items-center justify-center min-h-fit pt-20 pb-10">
       <div className="bg-white p-8 shadow-all rounded w-full max-w-md">
-        <h1 className={`text-4xl ${prop ? prop.fontColor : ""} font-bold ${prop ? prop.textalign : 'text-center'} mb-10`}>
-          LOGIN
-        </h1>
+        <h1 className="text-4xl text-center mb-10">LOGIN</h1>
 
-        {/* Username Input */}
+        {/* Email Input */}
         <div className="flex items-center border border-gray-300 rounded mb-4 p-2">
           <FaUser className="text-gray-500 mr-3" />
           <input
-            type="text"
-            placeholder="Enter Username"
+            type="email"
+            placeholder="Enter Email"
             className="w-full outline-none"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             disabled={loading} // Disable inputs while loading
           />
         </div>

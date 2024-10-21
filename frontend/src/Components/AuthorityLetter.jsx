@@ -1,13 +1,13 @@
-import React from 'react';
+
 
 const Authority = () => {
   const images = [
-    '/Photos/Letters/Amit-Kumar-Letter.jpg', // Replace with your image paths
-    '/Photos/Letters/HileshBhai-Letter.jpg',
-    '/Photos/Letters/Javed-Bhai-Letter.jpg',
-    '/Photos/Letters/NarayanBhai-Letter.jpg',
-    '/Photos/Letters/PrakashBhai-Letter.jpg',
-    '/Photos/Letters/RajeshBhai-Letter.jpg',
+    // '/Photos/Letters/Amit-Kumar-Letter.jpg', // Replace with your image paths
+    // '/Photos/Letters/HileshBhai-Letter.jpg',
+    // '/Photos/Letters/Javed-Bhai-Letter.jpg',
+    // '/Photos/Letters/NarayanBhai-Letter.jpg',
+    // '/Photos/Letters/PrakashBhai-Letter.jpg',
+    // '/Photos/Letters/RajeshBhai-Letter.jpg',
     '/Photos/kit.png',
     '/Photos/IdCard.jpg',
     '/Photos/QR.jpg',
