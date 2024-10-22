@@ -8,7 +8,7 @@ import ForgotePassword from './Screens/ForgotPassword';
 import AccountPage from './Screens/AccountPage';
 import PlanPage from './Screens/PlanPage';
 import LegalDocumentPage from './Screens/LegalDocumentPage';
-import ProtectedRoute from './components/ProtectedRoute'; // Import the ProtectedRoute component
+import ProtectedRoute from "./Components/ProtectedRoute"; // Import the ProtectedRoute component
 
 function App() {
   return (

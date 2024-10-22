@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types'; // Import PropTypes
 
 // ProtectedRoute checks if the user has a valid token before granting access to a route
 const ProtectedRoute = ({ children }) => {
@@ -12,6 +13,11 @@ const ProtectedRoute = ({ children }) => {
 
   // If a token exists, allow access to the protected route
   return children;
+};
+
+// Add prop types validation
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired, // Validate that children is a required node
 };
 
 export default ProtectedRoute;

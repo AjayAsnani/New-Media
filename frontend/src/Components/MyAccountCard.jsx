@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 
 const MyAccountCard = ({ number, title, description, bgColor, textColor }) => {
   return (
@@ -21,6 +21,15 @@ const MyAccountCard = ({ number, title, description, bgColor, textColor }) => {
       )}
     </div>
   );
+};
+
+// Add prop types validation
+MyAccountCard.propTypes = {
+  number: PropTypes.string.isRequired, // Validate 'number' prop
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  bgColor: PropTypes.string,
+  textColor: PropTypes.string,
 };
 
 export default MyAccountCard;
