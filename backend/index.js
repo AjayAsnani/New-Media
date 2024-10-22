@@ -5,8 +5,8 @@ const morgan = require('morgan');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const connectDB = require('./config/db'); // MongoDB connection function
-const userRoutes = require('./routes/userRoutes'); // User-related routes
-const loginRoute = require('./routes/login'); // Login route
+const userRoutes = require('./api/userRoutes'); // Updated path for userRoutes
+const loginRoute = require('./api/login'); // Updated path for login route
 require('dotenv').config(); // Load environment variables
 
 const app = express();
@@ -33,64 +33,59 @@ async function startServer() {
     await connectDB();
     console.log('MongoDB connected successfully');
     
-    // Start the server after MongoDB connection is established
-    const server = app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-
-    // Graceful shutdown handling
-    process.on('SIGTERM', () => {
-      console.log('SIGTERM signal received: closing HTTP server');
-      server.close(() => {
-        console.log('HTTP server closed');
-        if (mongoose.connection.readyState === 1) {
-          mongoose.connection.close(() => {
-            console.log('MongoDB connection closed');
-          });
-        }
+    if (process.env.NODE_ENV !== 'production') {
+      const server = app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
       });
-    });
 
-    process.on('SIGINT', () => {
-      console.log('SIGINT received. Shutting down gracefully...');
-      server.close(() => {
-        console.log('Server has shut down');
-        process.exit(0);
+      process.on('SIGTERM', () => {
+        console.log('SIGTERM signal received: closing HTTP server');
+        server.close(() => {
+          console.log('HTTP server closed');
+          if (mongoose.connection.readyState === 1) {
+            mongoose.connection.close(() => {
+              console.log('MongoDB connection closed');
+            });
+          }
+        });
       });
-    });
 
+      process.on('SIGINT', () => {
+        console.log('SIGINT received. Shutting down gracefully...');
+        server.close(() => {
+          console.log('Server has shut down');
+          process.exit(0);
+        });
+      });
+    }
   } catch (err) {
     console.error('Error connecting to MongoDB:', err.message);
     process.exit(1); // Exit process if MongoDB connection fails
   }
 }
 
-// Session management with MongoDB-backed session store
+// Session management
 app.use(session({
-  secret: process.env.SESSION_SECRET, // Secret used to sign the session ID
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false, // Do not save empty sessions
+  saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // Secure cookies in production
-    httpOnly: true, // Prevent client-side JavaScript from accessing cookies
-    maxAge: 1000 * 60 * 60 * 24, // 1-day expiration for cookies
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24,
   },
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI, // MongoDB connection for sessions
+    mongoUrl: process.env.MONGO_URI,
     collectionName: 'sessions',
-    autoRemove: 'native', // Automatically remove expired sessions
-  }, (err) => {
-    if (err) {
-      console.error('Session store connection failed:', err.message);
-    }
+    autoRemove: 'native',
   }),
 }));
 
-// API routes
-app.use('/api/auth', userRoutes); // User authentication routes
-app.use('/api/login', loginRoute); // Login route
-app.use('/api/users', require('./api/userManagement.js')); // User management routes
-app.use('/api/register', require('./api/registration')); // Registration routes
+// API routes (updated paths)
+app.use('/api/auth', userRoutes); // Updated path for userRoutes
+app.use('/api/login', loginRoute); // Updated path for login route
+app.use('/api/users', require('./api/userManagement.js')); // Updated path for userManagement
+app.use('/api/register', require('./api/registeration')); // Updated path for registration
 
 // Test route to check API status
 app.get('/', (req, res) => {
@@ -102,7 +97,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({
     message: 'An unexpected error occurred',
-    error: process.env.NODE_ENV === 'development' ? err.message : {}, // Show error only in development
+    error: process.env.NODE_ENV === 'development' ? err.message : {},
   });
 });
 
