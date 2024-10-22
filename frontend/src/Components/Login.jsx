@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // For navigation
 import { FaUser, FaLock } from 'react-icons/fa'; // Icons for User and Password
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Eye icons
 import { Link } from 'react-router-dom';
-import '../app.css';
+
 
 const Login = () => {
   const [email, setEmail] = useState(''); // State for email

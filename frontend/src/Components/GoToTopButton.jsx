@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiArrowUp } from 'react-icons/fi'; // Import the arrow icon
 
 const GoToTopButton = () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Navbar from '../Components/Navbar'; // Reuse the same navbar
 
 const ForgotPassword = () => {
