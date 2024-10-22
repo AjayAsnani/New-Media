@@ -22,10 +22,10 @@ const Login = () => {
   // Handle login
   const handleLogin = async () => {
     setLoading(true);
-    setError(''); // Clear any previous errors
-
+    setError('');
+  
     try {
-      const response = await fetch('http://localhost:3001/api/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,26 +35,22 @@ const Login = () => {
           password,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
-        // Successful login: Store JWT token in localStorage or sessionStorage
         localStorage.setItem('token', data.token); // Store the JWT token
-
-        // Navigate to account page after login
         navigate('/accountPage');
       } else {
-        // Display error message from backend
         setError(data.message || 'Invalid username or password.');
       }
     } catch (error) {
-      // Handle network errors or other issues
-      setError('An error occurred. Please try again later.',error);
+      setError('An error occurred. Please try again later.', error);
     } finally {
-      setLoading(false); // Turn off the loading state
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-fit pt-20 pb-10">

@@ -9,7 +9,8 @@ const Admin = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/users'); // Ensure this is the correct URL
+        // Use environment variable to handle different URLs in development and production
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users`); 
         console.log('Fetched Users:', response.data); // Log the fetched data
         setUsers(response.data);
       } catch (error) {
@@ -17,7 +18,7 @@ const Admin = () => {
       }
     };
 
-    fetchUsers(); // Call the function to fetch data
+    fetchUsers(); // Call the function when component mounts
   }, []);
 
   // Rest of your Admin component code...

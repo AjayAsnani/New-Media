@@ -18,7 +18,7 @@ const MyAccountSideBar = () => {
         setError(''); // Reset any previous errors
 
         try {
-            const response = await fetch('http://localhost:3001/api/logout', {  // Ensure this points to your backend
+            const response = await fetch('/api/logout', {  // Ensure this points to your backend
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
