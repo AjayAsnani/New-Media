@@ -9,6 +9,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'http://localhost:5173');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  console.log(FRONTEND_URL)
 
   if (req.method === 'OPTIONS') {
     // Handle preflight requests for CORS

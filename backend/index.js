@@ -16,6 +16,9 @@ if (!process.env.JWT_SECRET || !process.env.SESSION_SECRET || !process.env.MONGO
   console.error('FATAL ERROR: Missing essential environment variables.');
   process.exit(1);
 }
+console.log(SESSION_SECRET)
+console.log(MONGO_URI)
+console.log(FRONTEND_URL)
 
 app.use(helmet());
 app.use(cors({

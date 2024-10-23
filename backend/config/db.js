@@ -14,6 +14,7 @@ export async function dbConnect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    console.log(MONGODB_URI)
 
     isConnected = true;
     console.log('MongoDB connected successfully');
