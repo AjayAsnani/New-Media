@@ -7,6 +7,7 @@ const MongoStore = require('connect-mongo');
 const connectDB = require('./config/db'); // MongoDB connection function
 const userRoutes = require('./api/userRoutes'); // Updated path for userRoutes
 const loginRoute = require('./api/login'); // Updated path for login route
+const logoutRoute = require('./api/logout'); // Updated path for logout route
 require('dotenv').config(); // Load environment variables
 
 const app = express();
@@ -55,6 +56,7 @@ app.use(session({
 // API routes (updated paths)
 app.use('/api/auth', userRoutes); // Updated path for userRoutes
 app.use('/api/login', loginRoute); // Updated path for login route
+app.use('/api/logout', logoutRoute); // Added path for logout route
 app.use('/api/users', require('./api/userManagement.js')); // Updated path for userManagement
 app.use('/api/register', require('./api/registeration')); // Updated path for registration
 
@@ -70,6 +72,11 @@ app.use((err, req, res, next) => {
     message: 'An unexpected error occurred',
     error: process.env.NODE_ENV === 'development' ? err.message : {},
   });
+});
+
+// Catch-all route for 404 errors
+app.get('*', (req, res) => {
+  res.status(404).send('API route not found.');
 });
 
 // Do not include app.listen() for Vercel as it handles the server internally
