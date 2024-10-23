@@ -20,7 +20,7 @@ if (!process.env.JWT_SECRET || !process.env.SESSION_SECRET || !process.env.MONGO
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://new-media-3a32.vercel.app/', // Allow requests from frontend
+  origin: process.env.FRONTEND_URL || 'https://new-media-3a32.vercel.app', // Allow requests from frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
   credentials: true, // Enable credentials (cookies, sessions)
 }));
@@ -28,41 +28,12 @@ app.use(morgan('dev')); // Logging HTTP requests
 app.use(express.json()); // Parse JSON request bodies
 
 // MongoDB connection
-async function startServer() {
-  try {
-    await connectDB();
-    console.log('MongoDB connected successfully');
-    
-    if (process.env.NODE_ENV !== 'production') {
-      const server = app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-      });
-
-      process.on('SIGTERM', () => {
-        console.log('SIGTERM signal received: closing HTTP server');
-        server.close(() => {
-          console.log('HTTP server closed');
-          if (mongoose.connection.readyState === 1) {
-            mongoose.connection.close(() => {
-              console.log('MongoDB connection closed');
-            });
-          }
-        });
-      });
-
-      process.on('SIGINT', () => {
-        console.log('SIGINT received. Shutting down gracefully...');
-        server.close(() => {
-          console.log('Server has shut down');
-          process.exit(0);
-        });
-      });
-    }
-  } catch (err) {
-    console.error('Error connecting to MongoDB:', err.message);
-    process.exit(1); // Exit process if MongoDB connection fails
-  }
-}
+connectDB().then(() => {
+  console.log('MongoDB connected successfully');
+}).catch((err) => {
+  console.error('Error connecting to MongoDB:', err.message);
+  process.exit(1); // Exit process if MongoDB connection fails
+});
 
 // Session management
 app.use(session({
@@ -72,7 +43,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24, // 1 day expiration for cookies
   },
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
@@ -101,8 +72,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Define the port
-const PORT = process.env.PORT || 3001;
-
-// Start the server
-startServer();
+// Do not include app.listen() for Vercel as it handles the server internally
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
