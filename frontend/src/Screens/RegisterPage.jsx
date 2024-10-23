@@ -35,7 +35,7 @@ const RegisterPage = () => {
     async function onSubmit(data) {
         setSubmitMessage('');
         try {
-            const response = await fetch(`https://media-backend-pcld.onrender.com/api/login`, {
+            const response = await fetch(`https://media-backend-pcld.onrender.com/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
