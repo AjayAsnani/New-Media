@@ -23,9 +23,9 @@ const Login = () => {
   const handleLogin = async () => {
     setLoading(true);
     setError('');
-  
+
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+      const response = await fetch(`https://media-backend-pcld.onrender.com/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,9 +35,9 @@ const Login = () => {
           password,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         localStorage.setItem('token', data.token); // Store the JWT token
         navigate('/accountPage');
@@ -50,7 +50,7 @@ const Login = () => {
       setLoading(false);
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center min-h-fit pt-20 pb-10">

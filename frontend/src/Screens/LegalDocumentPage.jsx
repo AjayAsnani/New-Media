@@ -1,4 +1,4 @@
-import React from 'react';
+
 import IntroBanner from '../Components/IntroBanner';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
@@ -33,7 +33,7 @@ const LegalDocumentPage = () => {
                 alt={`Legal Document ${index + 1}`}
                 className="object-contain w-full h-auto max-h-[700px] shadow-lg" // Maintain aspect ratio
                 style={{
-                  maxWidth: '700px', 
+                  maxWidth: '700px',
                   maxHeight: '700px',
                 }}
               />

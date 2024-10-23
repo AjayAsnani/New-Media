@@ -1,4 +1,4 @@
-import{ useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Admin = () => {
@@ -10,7 +10,7 @@ const Admin = () => {
     const fetchUsers = async () => {
       try {
         // Use environment variable to handle different URLs in development and production
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users`); 
+        const response = await axios.get(`https://media-backend-pcld.onrender.com/api/users`);
         console.log('Fetched Users:', response.data); // Log the fetched data
         setUsers(response.data);
       } catch (error) {

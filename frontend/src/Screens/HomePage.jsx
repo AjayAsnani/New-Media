@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import IntroBanner from '../Components/IntroBanner'
@@ -19,8 +19,8 @@ const HomePage = () => {
       <IntroBanner />
       <Navbar />
       <JoinNow />
-       {/* Flex container to center the Login component */}
-       <div className="flex justify-center items-center my-10">
+      {/* Flex container to center the Login component */}
+      <div className="flex justify-center items-center my-10">
         <div className="w-full max-w-md">
           <Login prop={titleProperty} />
         </div>

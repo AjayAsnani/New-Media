@@ -21,7 +21,7 @@ const RegisterPage = () => {
     const [submitMessage, setSubmitMessage] = useState('');
     const navigate = useNavigate();
 
-  
+
     const isAdult = (dob) => {
         const dobDate = new Date(dob);
         const today = new Date();
@@ -35,7 +35,7 @@ const RegisterPage = () => {
     async function onSubmit(data) {
         setSubmitMessage('');
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/login`, {
+            const response = await fetch(`https://media-backend-pcld.onrender.com/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
