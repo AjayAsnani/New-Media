@@ -19,7 +19,7 @@ if (!process.env.JWT_SECRET || !process.env.SESSION_SECRET || !process.env.MONGO
 }
 
 // Middleware
-app.use(helmet());
+app.use(helmet()); // Security headers
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'https://new-media-3a32.vercel.app', // Allow requests from frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
@@ -42,14 +42,14 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24, // 1 day expiration for cookies
+    secure: process.env.NODE_ENV === 'production', // Secure cookies in production
+    httpOnly: true, // Prevent client-side access to cookies
+    maxAge: 1000 * 60 * 60 * 24, // 1-day expiration for cookies
   },
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
+    mongoUrl: process.env.MONGO_URI, // MongoDB connection for sessions
     collectionName: 'sessions',
-    autoRemove: 'native',
+    autoRemove: 'native', // Automatically remove expired sessions
   }),
 }));
 
@@ -70,7 +70,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({
     message: 'An unexpected error occurred',
-    error: process.env.NODE_ENV === 'development' ? err.message : {},
+    error: process.env.NODE_ENV === 'development' ? err.message : {}, // Show error only in development
   });
 });
 

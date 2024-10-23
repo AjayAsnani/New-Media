@@ -3,7 +3,9 @@ import mongoose from 'mongoose';
 let isConnected = false;
 
 export async function dbConnect() {
-  if (isConnected) {
+  // Check if there's an existing connection
+  if (isConnected || mongoose.connection.readyState === 1) {
+    console.log('MongoDB is already connected');
     return;
   }
 
@@ -12,8 +14,9 @@ export async function dbConnect() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+
     isConnected = true;
-    console.log('MongoDB connected');
+    console.log('MongoDB connected successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
     throw new Error('Failed to connect to MongoDB');

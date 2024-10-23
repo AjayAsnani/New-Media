@@ -2,34 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/index.js",
+      "src": "backend/api/*.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/auth/(.*)",
-      "dest": "/backend/index.js"
-    },
-    {
-      "src": "/api/login",
-      "dest": "/backend/index.js"
-    },
-    {
-      "src": "/api/logout",
-      "dest": "/backend/index.js"
-    },
-    {
-      "src": "/api/register",
-      "dest": "/backend/index.js"
-    },
-    {
-      "src": "/api/users",
-      "dest": "/backend/index.js"
-    },
-    {
       "src": "/api/(.*)",  
-      "dest": "/backend/index.js"
+      "dest": "/backend/api/$1"
     }
   ]
 }
